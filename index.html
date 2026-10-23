@@ -913,6 +913,14 @@ header.top .btn.sm{height:46px}
 .bp-perf::before,.bp-perf::after{content:"";position:absolute;left:-15px;width:28px;height:28px;border-radius:50%;background:var(--canvas,#fff);border:1px solid var(--line)}
 .bp-perf::before{top:-38px;clip-path:inset(50% 0 0 0)}
 .bp-perf::after{bottom:-38px;clip-path:inset(0 0 50% 0)}
+/* notches anchored to the card edges (not the stub height), so top and bottom always bite into the card */
+@media (min-width:761px){
+.hs-card.bpc{position:relative}
+.hs-card.bpc .bp-perf{position:static}
+.hs-card.bpc .bp-perf::before,.hs-card.bpc .bp-perf::after{left:calc(64.5455% - 13px)}
+.hs-card.bpc .bp-perf::before{top:-15px;bottom:auto}
+.hs-card.bpc .bp-perf::after{bottom:-15px;top:auto}
+}
 .bpc .hs-text.bp-stub{gap:14px;padding:clamp(22px,2.6vw,34px) clamp(20px,2.4vw,30px);justify-content:flex-start}
 .bp-flight b{font-weight:500;color:var(--payel-deep,var(--payel))}
 .bp-route{display:flex;align-items:center;gap:10px;font:400 italic clamp(22px,2vw,28px)/1 var(--display);color:var(--ink);margin-top:6px}
@@ -1091,6 +1099,30 @@ header.top .btn.solid::before{opacity:1!important;background:#1F6FDB!important}
 header.top .btn.solid:hover,header.top.on-sky .btn.solid:hover{color:#fff!important;border-color:#1F6FDB!important}
 header.top .btn.solid:hover .ic,header.top.on-sky .btn.solid:hover .ic{background:#fff!important;color:#1F6FDB!important;transform:rotate(-45deg)!important}
 /*/UI-B*/
+</style>
+<style id="ios-fix">
+/* iOS: toolbars shrink while scrolling, so full-screen layers use the large viewport (lvh) -> no strip below them */
+.cover-stage{height:100vh;height:100lvh}
+.rl-bg-in{height:100vh;height:100lvh}
+@media (max-width:760px){
+  /* work: pinned panel fills the whole screen; the bottom padding keeps cards above the toolbar when it is showing */
+  html .hs-pin{height:100vh!important;height:100lvh!important;min-height:0!important}
+  html .hs:not(.native) .hs-shell{padding-bottom:22px!important;padding-bottom:calc(100lvh - 100dvh + 22px)!important}
+  /* work cards: image takes the space left over, text never overlaps it, no dotted line */
+  html .hs:not(.native) .hs-card.bpc{display:flex!important;flex-direction:column!important;height:100%!important;overflow:hidden!important}
+  html .hs:not(.native) .hs-card.bpc .bp-main{flex:1 1 0!important;min-height:110px!important;display:flex!important;flex-direction:column!important;padding:12px 12px 0!important;gap:0!important}
+  html .hs:not(.native) .hs-card.bpc .hs-vis{flex:1 1 0!important;height:auto!important;min-height:0!important;max-height:none!important;margin:0!important;border-radius:16px!important}
+  html .hs:not(.native) .hs-card.bpc .bp-perf{display:none!important}
+  html .hs:not(.native) .hs-card.bpc .hs-text.bp-stub{flex:0 0 auto!important;display:flex!important;flex-direction:column!important;gap:12px!important;padding:18px 20px 20px!important;justify-content:flex-start!important}
+  html .hs:not(.native) .hs-card.bpc .hs-tag{margin:0!important;font-size:24px!important;line-height:1.1!important}
+  html .hs:not(.native) .hs-card.bpc .bp-kv{margin:0!important;padding-top:12px!important;gap:10px 16px!important}
+  html .hs:not(.native) .hs-card.bpc .hs-text .btn{margin-top:4px!important;align-self:flex-start!important}
+}
+@media (max-width:760px) and (max-height:700px){
+  html .hs:not(.native) .hs-card.bpc .hs-tag{font-size:21px!important}
+  html .hs:not(.native) .hs-card.bpc .bp-kv b{font-size:16px!important}
+  html .hs:not(.native) .hs-card.bpc .hs-text.bp-stub{gap:10px!important;padding:14px 18px 16px!important}
+}
 </style>
 </head>
 <body>
@@ -1545,7 +1577,7 @@ const tip=box.querySelector('.fx-tip');const setTip=()=>{if(tip)tip.textContent=
          .fromTo(head,{y:60,autoAlpha:0},{y:0,autoAlpha:1,ease:'power2.out',duration:.6},0)
          .fromTo(rest,{autoAlpha:0},{autoAlpha:1,ease:'power1.in',duration:.5},.5)
          .fromTo(first,{boxShadow:'0 9px 20px rgba(18,38,58,.22),0 37px 37px rgba(18,38,58,.18),0 84px 50px rgba(18,38,58,.12),0 149px 60px rgba(18,38,58,.04)'},{boxShadow:'0 30px 70px -44px rgba(18,38,58,.4)',ease:'none'},0);
-    const tween=gsap.to(track,{x:()=>-dist(),ease:'none',scrollTrigger:{trigger:pin,start:'top top',end:()=>'+='+dist(),pin:true,scrub:.8,invalidateOnRefresh:true,anticipatePin:1,onUpdate:s=>setCur(s.progress)}});
+    const tween=gsap.to(track,{x:()=>-dist(),ease:'none',scrollTrigger:{trigger:pin,start:'top top',end:()=>'+='+dist(),pin:true,scrub:.8,invalidateOnRefresh:true,anticipatePin:1,snap:innerWidth<=768&&n>1?{snapTo:1/(n-1),duration:{min:.2,max:.5},delay:.08,ease:'power1.inOut'}:false,onUpdate:s=>setCur(s.progress)}});
     // each card settles in as it arrives from the right
     cards.forEach((c,i)=>{if(i===0)return;
       gsap.fromTo(c,{scale:.9,rotate:1.5,transformOrigin:'0% 100%'},{scale:1,rotate:0,ease:'none',scrollTrigger:{trigger:c,containerAnimation:tween,start:'left right',end:'left 35%',scrub:true}});
