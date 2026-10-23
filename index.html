@@ -1200,6 +1200,11 @@ html.mob-film body .cover-stage,html.mob-film[data-theme] body .cover-stage{back
 .pgl .pg-snd{position:absolute;top:calc(16px + env(safe-area-inset-top,0px));right:66px;width:42px;height:42px;border-radius:50%;display:grid;place-items:center;border:1px solid rgba(255,255,255,.35);background:rgba(255,255,255,.14);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);color:#fff;cursor:pointer;padding:0}
 .pgl .pg-snd svg{width:19px;height:19px;grid-area:1/1}
 .pgl .pg-snd .s-on{display:none}.pgl.snd-on .pg-snd .s-on{display:block}.pgl.snd-on .pg-snd .s-off{display:none}
+.pgl .pg-start{position:absolute;left:-20px;right:-20px;top:34px;text-align:center;color:#fff;font:600 15px/1.35 Manrope,system-ui,sans-serif;opacity:0;pointer-events:none;transition:opacity .3s;text-shadow:0 1px 10px rgba(2,20,60,.3)}
+.pgl .pg-start small{display:block;font:500 9.5px var(--pg-mono);letter-spacing:.18em;opacity:.8;margin-top:6px}
+.pgl .pg-start i{display:block;width:34px;height:34px;margin:0 auto 12px;border-radius:50%;border:1.5px solid rgba(255,255,255,.8);animation:pg-pulse 1.4s ease-out infinite}
+@keyframes pg-pulse{0%{transform:scale(.7);opacity:1}100%{transform:scale(1.5);opacity:0}}
+.pgl.wait .pg-start{opacity:1}.pgl.wait{cursor:pointer}
 /* finish */
 .pgl.cut .pg-cutline{width:calc(100% - 32px)}
 .pgl.torn .pg-stub{transform:translate(14px,140px) rotate(16deg);opacity:0;transition:transform .9s cubic-bezier(.5,0,.7,1),opacity .9s}
@@ -1211,7 +1216,7 @@ html.mob-film body .cover-stage,html.mob-film[data-theme] body .cover-stage{back
  <div class="pg-brand">Payel<i>.</i></div>
  <button class="pg-snd" type="button" aria-pressed="false" aria-label="Turn sound on"><svg class="s-on" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 9.5h3.5L12 5.5v13l-4.5-4H4z"/><path d="M15.5 9a4 4 0 0 1 0 6M18 6.5a7.5 7.5 0 0 1 0 11"/></svg><svg class="s-off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 9.5h3.5L12 5.5v13l-4.5-4H4z"/><path d="M16 10l5 5M21 10l-5 5"/></svg></button>
  <button class="pg-tbtn" type="button" aria-label="Switch to dark theme"><svg class="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z"/></svg><svg class="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2.5v2M12 19.5v2M4.6 4.6l1.4 1.4M18 18l1.4 1.4M2.5 12h2M19.5 12h2M4.6 19.4L6 18M18 6l1.4-1.4"/></svg></button>
- <div class="pg-wrap"><div class="pg-slot"></div><div class="pg-clip"><div class="pg-pass">
+ <div class="pg-wrap"><div class="pg-start"><i></i><span class="pg-act">Tap</span> anywhere to print your boarding pass<small>SOUND ON 🔊</small></div><div class="pg-slot"></div><div class="pg-clip"><div class="pg-pass">
   <div class="pg-main">
    <div class="pg-top"><span><b>PORTFOLIO</b></span><span>BOARDING PASS</span></div>
    <div class="pg-route"><div class="pg-city"><small>FROM</small><span>Hello</span></div><div class="pg-fly"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M21 16v-2l-8-5V3.5a1.5 1.5 0 0 0-3 0V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5z" transform="rotate(90 12 12)"/></svg></div><div class="pg-city to"><small>TO</small><span>My work</span></div></div>
@@ -1234,7 +1239,7 @@ html.mob-film body .cover-stage,html.mob-film[data-theme] body .cover-stage{back
 <script>/* Boarding-pass loader. pgLoader(el,{onDone, local}) -> {set(p0..1), finish(), reset()} */
 window.pgLoader=function(el,opt){opt=opt||{};
   var touch=window.matchMedia&&matchMedia('(pointer:coarse)').matches;
-  el.querySelectorAll('.pg-dev').forEach(function(s){s.textContent=touch?'finger':'cursor'});
+  el.querySelectorAll('.pg-dev').forEach(function(s){s.textContent=touch?'finger':'cursor'});el.querySelectorAll('.pg-act').forEach(function(s){s.textContent=touch?'Tap':'Click'});
   var zone=el.querySelector('.pg-zone'),pct=el.querySelector('.pg-pct'),pass=el.querySelector('.pg-pass'),done=false,cut=0,dragging=false,lastSnip=0;
   /* ---- sound: synthesised, plays only from the visitor's own drag ---- */
   var AC=null,NB=null,muted=false,printing=true,pt=null;try{localStorage.removeItem('pg-sound')}catch(e){}try{muted=sessionStorage.getItem('pg-mute')==='1'}catch(e){}
@@ -1271,7 +1276,9 @@ window.pgLoader=function(el,opt){opt=opt||{};
   function syncSnd(){var on=!muted;el.classList.toggle('snd-on',!!on);if(sb){sb.setAttribute('aria-pressed',on?'true':'false');sb.setAttribute('aria-label',on?'Mute sound':'Turn sound on')}}
   if(sb)sb.addEventListener('click',function(e){e.stopPropagation();if(!muted&&AC&&AC.state!=='running'){unlock();return}muted=!muted;if(muted){printStop();try{sessionStorage.setItem('pg-mute','1')}catch(_){}}else{try{sessionStorage.removeItem('pg-mute')}catch(_){}unlock()}syncSnd()});
   /* sound is on by default: it starts at the visitor's first touch, click or key press anywhere (browsers allow nothing earlier) */
-  var first=function(){if(!muted)unlock()};['pointerdown','touchstart','touchend','click','keydown'].forEach(function(ev){document.addEventListener(ev,first,{capture:true,passive:true})});
+  var first=function(){if(!muted)unlock();if(el.classList.contains('wait')){el.classList.remove('wait');opt.onStart&&opt.onStart();setTimeout(printStart,30)}};
+  /* if the browser blocks sound until a click, hold the print until that first click so the typing is heard */
+  el.classList.add('wait');setTimeout(function(){if(muted||(AC&&AC.state==='running')){el.classList.remove('wait');opt.onStart&&opt.onStart()}},120);['pointerdown','touchstart','touchend','click','keydown'].forEach(function(ev){document.addEventListener(ev,first,{capture:true,passive:true})});
   if(!muted){try{var C=window.AudioContext||window.webkitAudioContext;if(C){ac();if(AC&&AC.state==='running')printStart()}}catch(e){}}
   setTimeout(syncSnd,80);
   /* ---- theme switch ---- */
@@ -1292,11 +1299,11 @@ window.pgLoader=function(el,opt){opt=opt||{};
  var stop=function(e){if(!el.classList.contains('gone'))e.preventDefault()};
  var keys=function(e){if(!el.classList.contains('gone')&&[' ','PageDown','PageUp','ArrowDown','ArrowUp','Home','End'].indexOf(e.key)>-1&&!(e.target&&e.target.closest&&e.target.closest('.pgl')))e.preventDefault()};
  addEventListener('wheel',stop,{passive:false});addEventListener('touchmove',stop,{passive:false});addEventListener('keydown',keys);
- var L=pgLoader(el,{onDone:function(){try{sessionStorage.setItem('pg-boarded','1')}catch(e){}
+ var t0=performance.now(),p=0,bar=null;
+ var L=pgLoader(el,{onStart:function(){t0=performance.now();p=0},onDone:function(){try{sessionStorage.setItem('pg-boarded','1')}catch(e){}
    removeEventListener('wheel',stop);removeEventListener('touchmove',stop);removeEventListener('keydown',keys);
    scrollTo(0,0);try{window.ScrollTrigger&&ScrollTrigger.refresh()}catch(e){}setTimeout(function(){el.parentNode&&el.parentNode.removeChild(el)},700)}});
- var t0=performance.now(),p=0,bar=null;
- (function tick(t){if(el.classList.contains('ready')||!el.parentNode)return;
+ (function tick(t){if(el.classList.contains('ready')||!el.parentNode)return;if(el.classList.contains('wait')){L.set(0);requestAnimationFrame(tick);return}
    bar=bar||document.querySelector('#coverLoad i');var f=bar?(parseFloat(bar.style.width)||0)/100:0;f=Math.min(1,f/0.35);
    var dt=t-t0,target=Math.min(1,Math.max(f,dt/9000),dt/1800);p+=(target-p)*0.08;if(target>=1&&p>0.985)p=1;L.set(p);requestAnimationFrame(tick)})(t0);
 })();</script>
