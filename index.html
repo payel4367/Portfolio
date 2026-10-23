@@ -1200,8 +1200,6 @@ html.mob-film body .cover-stage,html.mob-film[data-theme] body .cover-stage{back
 .pgl .pg-snd{position:absolute;top:calc(16px + env(safe-area-inset-top,0px));right:66px;width:42px;height:42px;border-radius:50%;display:grid;place-items:center;border:1px solid rgba(255,255,255,.35);background:rgba(255,255,255,.14);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);color:#fff;cursor:pointer;padding:0}
 .pgl .pg-snd svg{width:19px;height:19px;grid-area:1/1}
 .pgl .pg-snd .s-on{display:none}.pgl.snd-on .pg-snd .s-on{display:block}.pgl.snd-on .pg-snd .s-off{display:none}
-.pgl .pg-snd::after{content:"TAP FOR SOUND";position:absolute;right:calc(100% + 8px);top:50%;transform:translateY(-50%);white-space:nowrap;font:500 9px var(--pg-mono);letter-spacing:.16em;color:rgba(255,255,255,.85);transition:opacity .3s}
-.pgl.snd-on .pg-snd::after,.pgl.ready .pg-snd::after{opacity:0}
 /* finish */
 .pgl.cut .pg-cutline{width:calc(100% - 32px)}
 .pgl.torn .pg-stub{transform:translate(14px,140px) rotate(16deg);opacity:0;transition:transform .9s cubic-bezier(.5,0,.7,1),opacity .9s}
@@ -1270,9 +1268,10 @@ window.pgLoader=function(el,opt){opt=opt||{};
   fit();addEventListener('resize',fit);addEventListener('orientationchange',function(){setTimeout(fit,250)});
   /* ---- sound button + unlock ---- */
   var sb=el.querySelector('.pg-snd');
-  function syncSnd(){var on=!muted&&AC&&AC.state==='running';el.classList.toggle('snd-on',!!on);if(sb){sb.setAttribute('aria-pressed',on?'true':'false');sb.setAttribute('aria-label',on?'Mute sound':'Turn sound on')}}
-  if(sb)sb.addEventListener('click',function(e){e.stopPropagation();var on=el.classList.contains('snd-on');if(on){muted=true;printStop();try{localStorage.setItem('pg-sound','off')}catch(_){}}else{muted=false;try{localStorage.removeItem('pg-sound')}catch(_){}unlock()}setTimeout(syncSnd,60)});
-  el.addEventListener('pointerdown',function(){if(!muted){unlock();setTimeout(syncSnd,60)}},true);
+  function syncSnd(){var on=!muted;el.classList.toggle('snd-on',!!on);if(sb){sb.setAttribute('aria-pressed',on?'true':'false');sb.setAttribute('aria-label',on?'Mute sound':'Turn sound on')}}
+  if(sb)sb.addEventListener('click',function(e){e.stopPropagation();if(!muted&&AC&&AC.state!=='running'){unlock();return}muted=!muted;if(muted){printStop();try{localStorage.setItem('pg-sound','off')}catch(_){}}else{try{localStorage.removeItem('pg-sound')}catch(_){}unlock()}syncSnd()});
+  /* sound is on by default: it starts at the visitor's first touch, click or key press anywhere (browsers allow nothing earlier) */
+  var first=function(){if(!muted)unlock()};['pointerdown','touchstart','touchend','click','keydown'].forEach(function(ev){document.addEventListener(ev,first,{capture:true,passive:true})});
   if(!muted){try{var C=window.AudioContext||window.webkitAudioContext;if(C){ac();if(AC&&AC.state==='running')printStart()}}catch(e){}}
   setTimeout(syncSnd,80);
   /* ---- theme switch ---- */
