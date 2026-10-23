@@ -1123,6 +1123,13 @@ header.top .btn.solid:hover .ic,header.top.on-sky .btn.solid:hover .ic{backgroun
   html .hs:not(.native) .hs-card.bpc .bp-kv b{font-size:16px!important}
   html .hs:not(.native) .hs-card.bpc .hs-text.bp-stub{gap:10px!important;padding:14px 18px 16px!important}
 }
+@media (max-width:760px){
+  /* phone menu: always a solid white panel with dark links (dark theme included) */
+  html body header.top .links,html body header.top.on-sky .links,html[data-theme="dark"] body header.top .links,html[data-theme="dark"] body header.top.on-night .links{background:#fff!important;border:1px solid rgba(18,38,58,.1)!important;box-shadow:0 22px 48px -20px rgba(4,20,60,.55)!important;-webkit-backdrop-filter:none!important;backdrop-filter:none!important}
+  html body header.top .links a,html body header.top.on-sky .links a,html[data-theme="dark"] body header.top .links a,html[data-theme="dark"] body header.top.on-night .links a{color:#12263A!important}
+  html body header.top .links a.on,html body header.top.on-sky .links a.on,html[data-theme="dark"] body header.top .links a.on,html[data-theme="dark"] body header.top.on-night .links a.on{color:#1F6FDB!important}
+  html body header.top .links a.menu-resume,html body header.top.on-sky .links a.menu-resume,html[data-theme="dark"] body header.top .links a.menu-resume,html[data-theme="dark"] body header.top.on-night .links a.menu-resume{color:#fff!important;background:#12263A!important}
+}
 </style>
 </head>
 <body>
@@ -1475,9 +1482,11 @@ const tip=box.querySelector('.fx-tip');const setTip=()=>{if(tip)tip.textContent=
     const HD=new Image();HD.decoding='async';HD.src='hero-m4d.jpg';HD.decode&&HD.decode().then(()=>{HD._ok=1;if(MOB&&DKT()&&cur)drawMob(cur)}).catch(()=>{});HD.onload=()=>{if(MOB&&DKT()&&cur)drawMob(cur)};const SKY=new Image();SKY.src='exp-sky-d.jpg';SKY.onload=()=>{if(MOB&&DKT()&&cur)drawMob(cur)};
     // dark phone film: last frame (720×1280 px) → hero-m3d.jpg (942×1670) similarity; face at cell (252,510)
     const MD=[1.3299,-0.1289,31.884,0.1289,1.3299,198.263],IW=762,IH=2064;
+    // phones: place the hero picture so her head (y≈990 in the image) starts just below the buttons; never leave a gap at top or bottom
+    const CTA=document.querySelector('.cover-hero .ctas');function HBY(bs,H,ih){const low=H-ih*bs;if(!CTA||!CTA.offsetHeight)return low;const want=CTA.offsetTop+CTA.offsetHeight+16-990*bs;return Math.min(0,Math.max(low,want))}
     function drawMobDark(im){// same method as the light film: one moving camera carries the film onto the picture, faces locked, film fades out
       const d=cv.width/Math.max(1,cv.clientWidth),W=cv.clientWidth,H=cv.clientHeight;
-      const vs=Math.max(W/FW,H/FH),vw=FW*vs,vh=FH*vs,vx=(W-vw)/2,vy=(H-vh)/2,bs=Math.max(W/IW,H/IH),bx=(W-IW*bs)/2,by=H-IH*bs;
+      const vs=Math.max(W/FW,H/FH),vw=FW*vs,vh=FH*vs,vx=(W-vw)/2,vy=(H-vh)/2,bs=Math.max(W/IW,H/IH),bx=(W-IW*bs)/2,by=HBY(bs,H,IH);
       // T: screen point on the film -> same point on the resting picture
       const r=bs/(vs*.75),a=r*MD[0],b=r*MD[1],c=r*MD[3],dd=r*MD[4],te=bs*MD[2]+bx-(a*vx+b*vy),tf=bs*MD[5]+by-(c*vx+dd*vy);
       const e=sm(mT),A=1+(a-1)*e,B=c*e,C=b*e,D=1+(dd-1)*e,E=te*e,F=tf*e;
@@ -1501,7 +1510,7 @@ const tip=box.querySelector('.fx-tip');const setTip=()=>{if(tip)tip.textContent=
       ctx.setTransform(1,0,0,1,0,0);cv.style.opacity=1}
     function drawMob(im){if(DKT())return drawMobDark(im);const d=cv.width/Math.max(1,cv.clientWidth),W=cv.clientWidth,H=cv.clientHeight;
       const vs=Math.max(W/FW,H/FH),vw=FW*vs,vh=FH*vs,vx=(W-vw)/2,vy=(H-vh)/2;
-      const bs=Math.max(W/762,H/2064),bx=(W-762*bs)/2,by=H-2064*bs,k=(218*bs)/(108*vs),px=vx+264*vs,py=vy+493*vs,qx=bx+371*bs,qy=by+1140*bs,ox=qx-px*k,oy=qy-py*k;
+      const bs=Math.max(W/762,H/2064),bx=(W-762*bs)/2,by=HBY(bs,H,2064),k=(218*bs)/(108*vs),px=vx+264*vs,py=vy+493*vs,qx=bx+371*bs,qy=by+1140*bs,ox=qx-px*k,oy=qy-py*k;
       const e=sm(mT),m=1+(k-1)*e,tx=ox*e,ty=oy*e;
       ctx.setTransform(d,0,0,d,0,0);ctx.globalAlpha=1;ctx.fillStyle='#0371F3';ctx.fillRect(0,0,W,H);
       if(mT>0&&HI.complete&&HI.naturalWidth){// hero image in the same moving camera, so the faces stay locked together
