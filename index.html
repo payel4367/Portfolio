@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Payel Ghosh · Product Designer</title>
 <meta name="description" content="Payel Ghosh – product designer. Selected work, experience and case studies.">
 <script>(function(){var t="light";try{var v=localStorage.getItem("pg-theme");if(v==="dark"||v==="light")t=v}catch(e){}document.documentElement.setAttribute("data-theme",t);if(innerWidth<=600&&innerHeight>innerWidth){["hero-m3.jpg","hero-m4d.jpg"].forEach(function(h){var l=document.createElement("link");l.rel="preload";l.as="image";l.href=h;document.head.appendChild(l)})}})();</script>
@@ -1129,6 +1129,14 @@ header.top .btn.solid:hover .ic,header.top.on-sky .btn.solid:hover .ic{backgroun
   html body header.top .links a,html body header.top.on-sky .links a,html[data-theme="dark"] body header.top .links a,html[data-theme="dark"] body header.top.on-night .links a{color:#12263A!important}
   html body header.top .links a.on,html body header.top.on-sky .links a.on,html[data-theme="dark"] body header.top .links a.on,html[data-theme="dark"] body header.top.on-night .links a.on{color:#1F6FDB!important}
   html body header.top .links a.menu-resume,html body header.top.on-sky .links a.menu-resume,html[data-theme="dark"] body header.top .links a.menu-resume,html[data-theme="dark"] body header.top.on-night .links a.menu-resume{color:#fff!important;background:#12263A!important}
+}
+/* Safari 26 (iOS): the toolbar copies the background colour of fixed/sticky layers touching the bottom edge.
+   Keep those layers' colour transparent (their images still paint) so the page shows through the glass bar. */
+html{background-color:var(--canvas,#fff)}
+html.mob-film body .cover-stage,html.mob-film[data-theme] body .cover-stage{background-color:transparent!important}
+@media (max-width:760px){
+  html[data-theme] body #hsPin.hs-pin,html body #hsPin.hs-pin{background-color:transparent!important}
+  html .hs:not(.native) .hs-shell{padding-bottom:calc(22px + env(safe-area-inset-bottom,0px))!important;padding-bottom:calc(100lvh - 100dvh + 22px + env(safe-area-inset-bottom,0px))!important}
 }
 </style>
 </head>
