@@ -1237,7 +1237,7 @@ window.pgLoader=function(el,opt){opt=opt||{};
   el.querySelectorAll('.pg-dev').forEach(function(s){s.textContent=touch?'finger':'cursor'});
   var zone=el.querySelector('.pg-zone'),pct=el.querySelector('.pg-pct'),pass=el.querySelector('.pg-pass'),done=false,cut=0,dragging=false,lastSnip=0;
   /* ---- sound: synthesised, plays only from the visitor's own drag ---- */
-  var AC=null,NB=null,muted=false,printing=true,pt=null;try{muted=localStorage.getItem('pg-sound')==='off'}catch(e){}
+  var AC=null,NB=null,muted=false,printing=true,pt=null;try{localStorage.removeItem('pg-sound')}catch(e){}try{muted=sessionStorage.getItem('pg-mute')==='1'}catch(e){}
   function ac(){try{if(!AC){var C=window.AudioContext||window.webkitAudioContext;if(!C)return null;AC=new C();var n=AC.sampleRate,b=AC.createBuffer(1,n,n),d=b.getChannelData(0);for(var i=0;i<n;i++)d[i]=Math.random()*2-1;NB=b}if(AC.state==='suspended')AC.resume();return AC}catch(e){return null}}
   function burst(t,dur,f,q,g){var a=AC,s=a.createBufferSource(),bp=a.createBiquadFilter(),gn=a.createGain();s.buffer=NB;bp.type='bandpass';bp.frequency.value=f;bp.Q.value=q;gn.gain.setValueAtTime(0.0001,t);gn.gain.exponentialRampToValueAtTime(g,t+0.004);gn.gain.exponentialRampToValueAtTime(0.0001,t+dur);s.connect(bp);bp.connect(gn);gn.connect(a.destination);s.start(t,Math.random()*0.5);s.stop(t+dur+0.02)}
   function live(){return !muted&&AC&&AC.state==='running'}
@@ -1269,7 +1269,7 @@ window.pgLoader=function(el,opt){opt=opt||{};
   /* ---- sound button + unlock ---- */
   var sb=el.querySelector('.pg-snd');
   function syncSnd(){var on=!muted;el.classList.toggle('snd-on',!!on);if(sb){sb.setAttribute('aria-pressed',on?'true':'false');sb.setAttribute('aria-label',on?'Mute sound':'Turn sound on')}}
-  if(sb)sb.addEventListener('click',function(e){e.stopPropagation();if(!muted&&AC&&AC.state!=='running'){unlock();return}muted=!muted;if(muted){printStop();try{localStorage.setItem('pg-sound','off')}catch(_){}}else{try{localStorage.removeItem('pg-sound')}catch(_){}unlock()}syncSnd()});
+  if(sb)sb.addEventListener('click',function(e){e.stopPropagation();if(!muted&&AC&&AC.state!=='running'){unlock();return}muted=!muted;if(muted){printStop();try{sessionStorage.setItem('pg-mute','1')}catch(_){}}else{try{sessionStorage.removeItem('pg-mute')}catch(_){}unlock()}syncSnd()});
   /* sound is on by default: it starts at the visitor's first touch, click or key press anywhere (browsers allow nothing earlier) */
   var first=function(){if(!muted)unlock()};['pointerdown','touchstart','touchend','click','keydown'].forEach(function(ev){document.addEventListener(ev,first,{capture:true,passive:true})});
   if(!muted){try{var C=window.AudioContext||window.webkitAudioContext;if(C){ac();if(AC&&AC.state==='running')printStart()}}catch(e){}}
