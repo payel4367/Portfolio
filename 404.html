@@ -18,6 +18,13 @@ a{color:inherit}
 .top{display:flex;justify-content:space-between;align-items:center;padding:calc(20px + env(safe-area-inset-top,0px)) clamp(18px,4vw,48px) 0}
 .brand{font:400 30px/1 var(--serif);text-decoration:none;color:#fff}.brand i{font-style:normal;color:#9CC8FF}
 .code{font:500 11px var(--mono);letter-spacing:.2em;color:rgba(255,255,255,.75)}
+.tr{display:flex;align-items:center;gap:14px}
+.tbtn{width:42px;height:42px;border-radius:50%;display:grid;place-items:center;border:1px solid rgba(255,255,255,.4);background:rgba(255,255,255,.16);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);color:#fff;cursor:pointer;padding:0}
+.tbtn svg{width:19px;height:19px;grid-area:1/1;transition:opacity .3s,transform .4s}
+.tbtn .i-sun{opacity:0;transform:rotate(-60deg) scale(.6)}
+:root[data-theme="dark"] .tbtn .i-sun{opacity:1;transform:none;color:#F0D9A4}:root[data-theme="dark"] .tbtn .i-moon{opacity:0;transform:rotate(60deg) scale(.6)}
+.tbtn:focus-visible{outline:2px solid #fff;outline-offset:3px}
+body{transition:background-color .5s}.stage .half,.stage .under,.stage video{transition-property:transform,opacity,filter}
 main{flex:1;display:flex;flex-direction:column;justify-content:center;padding:clamp(10px,4vh,40px) 0 calc(30px + env(safe-area-inset-bottom,0px))}
 
 /* stage: the footer hands film */
@@ -32,15 +39,6 @@ main{flex:1;display:flex;flex-direction:column;justify-content:center;padding:cl
 .apart .half{transition:transform 1.6s cubic-bezier(.45,0,.15,1)}
 .apart .half.l{transform:translateX(calc(-1 * var(--pull,16vw))) rotate(-2.5deg)}
 .apart .half.r{transform:translateX(var(--pull,16vw)) rotate(2.5deg)}
-
-/* snip */
-.snip{position:absolute;left:var(--split,51%);top:50%;width:46px;height:46px;margin:-23px 0 0 -23px;color:#fff;opacity:0;pointer-events:none;filter:drop-shadow(0 2px 8px rgba(0,20,60,.45))}
-.snip svg{width:100%;height:100%}
-.cut .snip{animation:snip .7s ease-out forwards}
-@keyframes snip{0%{opacity:0;transform:scale(.6) rotate(-20deg)}35%{opacity:1;transform:scale(1.15) rotate(0)}100%{opacity:0;transform:scale(1) rotate(10deg)}}
-.flash{position:absolute;left:var(--split,51%);top:20%;bottom:20%;width:2px;margin-left:-1px;background:#fff;opacity:0;box-shadow:0 0 12px #fff}
-.cut .flash{animation:flash .45s ease-out}
-@keyframes flash{0%{opacity:0}30%{opacity:1}100%{opacity:0}}
 
 /* big 404 */
 .big{position:absolute;left:var(--split,51%);top:50%;transform:translate(-50%,-50%) scale(.82);font:400 clamp(110px,21vw,300px)/.8 var(--serif);letter-spacing:-.02em;color:#fff;opacity:0;white-space:nowrap;text-shadow:0 10px 40px rgba(0,25,80,.35);pointer-events:none}
@@ -61,19 +59,17 @@ main{flex:1;display:flex;flex-direction:column;justify-content:center;padding:cl
 .btn.solid{background:#fff;color:var(--ink)}.btn.solid .ic{background:#1F6FDB;color:#fff}
 .btn.ghost{border:1.5px solid rgba(255,255,255,.6);color:#fff;padding:12px 20px}
 .btn:focus-visible{outline:2px solid #fff;outline-offset:3px}
-@media (prefers-reduced-motion:reduce){.apart .half,.apart .big,.apart .copy{transition:none!important}.cut .snip,.cut .flash{animation:none}}
+@media (prefers-reduced-motion:reduce){.apart .half,.apart .big,.apart .copy{transition:none!important}}
 </style>
 </head>
 <body>
-<header class="top"><a class="brand" href="/">Payel<i>.</i></a><span class="code">ERROR 404</span></header>
+<header class="top"><a class="brand" href="/">Payel<i>.</i></a><div class="tr"><span class="code">ERROR 404</span><button class="tbtn" id="tb" type="button" aria-label="Switch to dark theme"><svg class="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z"/></svg><svg class="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2.5v2M12 19.5v2M4.6 4.6l1.4 1.4M18 18l1.4 1.4M2.5 12h2M19.5 12h2M4.6 19.4L6 18M18 6l1.4-1.4"/></svg></button></div></header>
 <main id="m">
   <div class="stage" id="stage">
     <video id="v" muted playsinline autoplay preload="auto" aria-hidden="true"></video>
     <div class="under" aria-hidden="true"></div>
     <div class="half l" aria-hidden="true"></div>
     <div class="half r" aria-hidden="true"></div>
-    <i class="flash" aria-hidden="true"></i>
-    <span class="snip" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="6" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><path d="M20 4L8.1 15.9M14.5 14.5L20 20M8.1 8.1L12 12"/></svg></span>
     <div class="big" aria-hidden="true">4<em>0</em>4</div>
   </div>
   <div class="copy">
@@ -89,12 +85,15 @@ main{flex:1;display:flex;flex-direction:column;justify-content:center;padding:cl
 (function(){
   var dark=document.documentElement.getAttribute('data-theme')==='dark';
   var v=document.getElementById('v'),stage=document.getElementById('stage'),m=document.getElementById('m');
-  var base=dark?'/handsd':'/hands',TIED=base+'-tied.jpg',CUT=8.2,SPLIT=51,done=false;
-  document.querySelectorAll('.half').forEach(function(h){h.style.backgroundImage='url('+TIED+')'});document.querySelector('.under').style.backgroundImage='url('+base+'-poster.jpg)';
-  (new Image()).src=TIED;
-  v.poster=base+'-poster.jpg';
-  var s1=document.createElement('source');s1.src=base+'.webm';s1.type='video/webm';
-  var s2=document.createElement('source');s2.src=base+'.mp4';s2.type='video/mp4';v.appendChild(s1);v.appendChild(s2);
+  var CUT=8.2,SPLIT=51,done=false,base;
+  function setArt(d,keepTime){base=d?'/handsd':'/hands';var T=base+'-tied.jpg';(new Image()).src=T;
+    document.querySelectorAll('.half').forEach(function(h){h.style.backgroundImage='url('+T+')'});document.querySelector('.under').style.backgroundImage='url('+base+'-poster.jpg)';
+    if(done)return;var t=keepTime?v.currentTime:0;v.poster=base+'-poster.jpg';v.innerHTML='';
+    var s1=document.createElement('source');s1.src=base+'.webm';s1.type='video/webm';var s2=document.createElement('source');s2.src=base+'.mp4';s2.type='video/mp4';v.appendChild(s1);v.appendChild(s2);
+    if(keepTime){v.load();try{v.currentTime=t}catch(e){}var seek=function(){if(Math.abs(v.currentTime-t)>0.3){try{v.currentTime=t}catch(e){}}};['loadedmetadata','loadeddata','canplay'].forEach(function(ev){v.addEventListener(ev,function f(){v.removeEventListener(ev,f);seek()})});var p=v.play();if(p&&p.catch)p.catch(function(){})}}
+  setArt(dark,false);
+  var tb=document.getElementById('tb');function lbl(){var d=document.documentElement.getAttribute('data-theme')==='dark';tb.setAttribute('aria-label',d?'Switch to light theme':'Switch to dark theme')}lbl();
+  tb.addEventListener('click',function(){var d=document.documentElement.getAttribute('data-theme')!=='dark';document.documentElement.setAttribute('data-theme',d?'dark':'light');try{localStorage.setItem('pg-theme',d?'dark':'light')}catch(e){}lbl();setArt(d,true)});
   // where the cut lands on screen (the film is cropped with object-fit:cover)
   function place(){var W=stage.clientWidth,H=stage.clientHeight,vw=1440,vh=376,s=Math.max(W/vw,H/vh),rw=vw*s,ox=(W-rw)*(SPLIT/100);
     var x=(ox+rw*SPLIT/100)/W*100;stage.style.setProperty('--split',x.toFixed(2)+'%');stage.style.setProperty('--pull',Math.max(60,W*0.16)+'px')}
