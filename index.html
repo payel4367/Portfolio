@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Payel Ghosh · Product Designer</title>
 <meta name="description" content="Payel Ghosh – product designer. Selected work, experience and case studies.">
-<script>(function(){var t="light";try{var v=localStorage.getItem("pg-theme");if(v==="dark"||v==="light")t=v}catch(e){}document.documentElement.setAttribute("data-theme",t);if(innerWidth<=600&&innerHeight>innerWidth){["hero-m3.jpg","hero-m4d.jpg"].forEach(function(h){var l=document.createElement("link");l.rel="preload";l.as="image";l.href=h;document.head.appendChild(l)})}})();</script>
+<script>(function(){var t="light";try{localStorage.removeItem("pg-theme")}catch(e){}try{var v=sessionStorage.getItem("pg-theme");if(v==="dark"||v==="light")t=v}catch(e){}document.documentElement.setAttribute("data-theme",t);if(innerWidth<=600&&innerHeight>innerWidth){["hero-m3.jpg","hero-m4d.jpg"].forEach(function(h){var l=document.createElement("link");l.rel="preload";l.as="image";l.href=h;document.head.appendChild(l)})}})();</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..700;1,9..144,400..700&family=Manrope:wght@400..700&family=DM+Mono:wght@400;500&display=swap">
@@ -1288,7 +1288,7 @@ window.pgLoader=function(el,opt){opt=opt||{};
   function syncTheme(){var d=opt.local?el.classList.contains('dark'):document.documentElement.getAttribute('data-theme')==='dark';el.classList.toggle('dark',d);if(tb)tb.setAttribute('aria-label',d?'Switch to light theme':'Switch to dark theme')}
   if(tb)tb.addEventListener('click',function(){if(opt.local){el.classList.toggle('dark');syncTheme();return}
     var next=document.documentElement.getAttribute('data-theme')==='dark'?'light':'dark';
-    if(typeof window.__setTheme==='function'){try{window.__setTheme(next)}catch(e){}}else{document.documentElement.setAttribute('data-theme',next);try{localStorage.setItem('pg-theme',next)}catch(e){}}
+    if(typeof window.__setTheme==='function'){try{window.__setTheme(next)}catch(e){}}else{document.documentElement.setAttribute('data-theme',next);try{sessionStorage.setItem('pg-theme',next)}catch(e){}}
     setTimeout(syncTheme,30)});
   if(!opt.local){syncTheme();try{new MutationObserver(syncTheme).observe(document.documentElement,{attributes:true,attributeFilter:['data-theme']})}catch(e){}}
   return {set:set,finish:finish,reset:function(){printing=true;printStop();if(live())printStart();done=false;cut=0;lastSnip=0;pass.style.transition='none';el.style.setProperty('--pg-cut',0);el.classList.remove('ready','cut','torn','lift','gone','cutting');set(0);pass.offsetHeight;pass.style.transition=''}};
@@ -2311,7 +2311,7 @@ let busy=false;window.__setTheme=async next=>{if(busy||next===cur())return;busy=
   // only wait for the hero film when the hero is on screen; elsewhere switch instantly and let it load in the background
   const cv=document.getElementById('cover'),heroOn=cv&&cv.getBoundingClientRect().bottom>innerHeight*.5;
   let pre=null;if(heroOn){pre=window.__coverPre?await window.__coverPre(next==='dark'):null;const hero=new Image();hero.src=next==='dark'?'hero-sky9d.jpg':'hero-sky8.jpg';try{await Promise.race([hero.decode(),new Promise(r=>setTimeout(r,1200))])}catch(e){}}
-  const apply=()=>{R.setAttribute('data-theme',next);try{localStorage.setItem('pg-theme',next)}catch(e){}sync();(heroOn?(window.__coverTheme&&window.__coverTheme(pre)):(window.__coverDirty=1))};
+  const apply=()=>{R.setAttribute('data-theme',next);try{sessionStorage.setItem('pg-theme',next)}catch(e){}sync();(heroOn?(window.__coverTheme&&window.__coverTheme(pre)):(window.__coverDirty=1))};
   const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
   if(document.startViewTransition&&!reduce&&heroOn){await document.startViewTransition(apply).finished.catch(()=>{})}else{R.classList.add('theme-fade');apply();setTimeout(()=>R.classList.remove('theme-fade'),450)}busy=false};
 if(b){let d0=null;b.addEventListener('pointerdown',()=>{d0={t:performance.now(),s:scrollY}});b.addEventListener('click',e=>{if(e.detail&&d0&&(performance.now()-d0.t>600||Math.abs(scrollY-d0.s)>=4)){d0=null;return}d0=null;window.__setTheme(cur()==='dark'?'light':'dark')})}

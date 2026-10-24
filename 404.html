@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Page not found · Payel Ghosh</title>
 <meta name="robots" content="noindex">
-<script>(function(){var t="light";try{var v=localStorage.getItem("pg-theme");if(v==="dark"||v==="light")t=v}catch(e){}document.documentElement.setAttribute("data-theme",t)})();</script>
+<script>(function(){var t="light";try{localStorage.removeItem("pg-theme")}catch(e){}try{var v=sessionStorage.getItem("pg-theme");if(v==="dark"||v==="light")t=v}catch(e){}document.documentElement.setAttribute("data-theme",t)})();</script>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Manrope:wght@400..700&family=DM+Mono:wght@400;500&display=swap">
 <style>
@@ -93,7 +93,7 @@ main{flex:1;display:flex;flex-direction:column;justify-content:center;padding:cl
     if(keepTime){v.load();try{v.currentTime=t}catch(e){}var seek=function(){if(Math.abs(v.currentTime-t)>0.3){try{v.currentTime=t}catch(e){}}};['loadedmetadata','loadeddata','canplay'].forEach(function(ev){v.addEventListener(ev,function f(){v.removeEventListener(ev,f);seek()})});var p=v.play();if(p&&p.catch)p.catch(function(){})}}
   setArt(dark,false);
   var tb=document.getElementById('tb');function lbl(){var d=document.documentElement.getAttribute('data-theme')==='dark';tb.setAttribute('aria-label',d?'Switch to light theme':'Switch to dark theme')}lbl();
-  tb.addEventListener('click',function(){var d=document.documentElement.getAttribute('data-theme')!=='dark';document.documentElement.setAttribute('data-theme',d?'dark':'light');try{localStorage.setItem('pg-theme',d?'dark':'light')}catch(e){}lbl();setArt(d,true)});
+  tb.addEventListener('click',function(){var d=document.documentElement.getAttribute('data-theme')!=='dark';document.documentElement.setAttribute('data-theme',d?'dark':'light');try{sessionStorage.setItem('pg-theme',d?'dark':'light')}catch(e){}lbl();setArt(d,true)});
   // where the cut lands on screen (the film is cropped with object-fit:cover)
   function place(){var W=stage.clientWidth,H=stage.clientHeight,vw=1440,vh=376,s=Math.max(W/vw,H/vh),rw=vw*s,ox=(W-rw)*(SPLIT/100);
     var x=(ox+rw*SPLIT/100)/W*100;stage.style.setProperty('--split',x.toFixed(2)+'%');stage.style.setProperty('--pull',Math.max(60,W*0.16)+'px')}
