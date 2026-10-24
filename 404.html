@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Page not found · Payel Ghosh</title>
+<meta name="robots" content="noindex">
+<script>(function(){var t="light";try{var v=localStorage.getItem("pg-theme");if(v==="dark"||v==="light")t=v}catch(e){}document.documentElement.setAttribute("data-theme",t)})();</script>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Manrope:wght@400..700&family=DM+Mono:wght@400;500&display=swap">
+<style>
+:root{--top:#1d7ff3;--mid:#3d9bf7;--bot:#8cc6ff;--ink:#12263A;--gold:#F0B44C;--txt:#fff;--serif:"Instrument Serif",Georgia,serif;--sans:Manrope,system-ui,-apple-system,sans-serif;--mono:"DM Mono",ui-monospace,Menlo,monospace}
+:root[data-theme="dark"]{--top:#071029;--mid:#0b1c43;--bot:#14306a}
+*{box-sizing:border-box}
+html{background:var(--top)}
+body{margin:0;min-height:100vh;min-height:100svh;background:linear-gradient(180deg,var(--top) 0%,var(--mid) 45%,var(--bot) 100%);color:var(--txt);font-family:var(--sans);overflow-x:hidden;display:flex;flex-direction:column}
+a{color:inherit}
+.top{display:flex;justify-content:space-between;align-items:center;padding:calc(20px + env(safe-area-inset-top,0px)) clamp(18px,4vw,48px) 0}
+.brand{font:400 30px/1 var(--serif);text-decoration:none;color:#fff}.brand i{font-style:normal;color:#9CC8FF}
+.code{font:500 11px var(--mono);letter-spacing:.2em;color:rgba(255,255,255,.75)}
+main{flex:1;display:flex;flex-direction:column;justify-content:center;padding:clamp(10px,4vh,40px) 0 calc(30px + env(safe-area-inset-bottom,0px))}
+
+/* stage: the footer hands film */
+.stage{position:relative;width:100%;height:clamp(210px,27vw,400px);-webkit-mask-image:linear-gradient(transparent,#000 18%,#000 82%,transparent);mask-image:linear-gradient(transparent,#000 18%,#000 82%,transparent)}
+.stage video,.stage .half,.stage .under{position:absolute;inset:0;width:100%;height:100%}
+.under{opacity:0;background-size:1100% 100%;background-position:50% 50%}.cut .under{opacity:1}
+.stage video{object-fit:cover;object-position:51% 50%}
+.half{opacity:0;background-size:cover;background-position:51% 50%;will-change:transform}
+.half.l{clip-path:inset(0 calc(100% - var(--split,51%)) 0 0);transform-origin:0 50%;-webkit-mask-image:linear-gradient(90deg,#000 calc(var(--split,51%) - 7%),transparent var(--split,51%));mask-image:linear-gradient(90deg,#000 calc(var(--split,51%) - 7%),transparent var(--split,51%))}
+.half.r{clip-path:inset(0 0 0 var(--split,51%));transform-origin:100% 50%;-webkit-mask-image:linear-gradient(90deg,transparent var(--split,51%),#000 calc(var(--split,51%) + 7%));mask-image:linear-gradient(90deg,transparent var(--split,51%),#000 calc(var(--split,51%) + 7%))}
+.cut .half{opacity:1}.cut video{opacity:0}
+.apart .half{transition:transform 1.6s cubic-bezier(.45,0,.15,1)}
+.apart .half.l{transform:translateX(calc(-1 * var(--pull,16vw))) rotate(-2.5deg)}
+.apart .half.r{transform:translateX(var(--pull,16vw)) rotate(2.5deg)}
+
+/* snip */
+.snip{position:absolute;left:var(--split,51%);top:50%;width:46px;height:46px;margin:-23px 0 0 -23px;color:#fff;opacity:0;pointer-events:none;filter:drop-shadow(0 2px 8px rgba(0,20,60,.45))}
+.snip svg{width:100%;height:100%}
+.cut .snip{animation:snip .7s ease-out forwards}
+@keyframes snip{0%{opacity:0;transform:scale(.6) rotate(-20deg)}35%{opacity:1;transform:scale(1.15) rotate(0)}100%{opacity:0;transform:scale(1) rotate(10deg)}}
+.flash{position:absolute;left:var(--split,51%);top:20%;bottom:20%;width:2px;margin-left:-1px;background:#fff;opacity:0;box-shadow:0 0 12px #fff}
+.cut .flash{animation:flash .45s ease-out}
+@keyframes flash{0%{opacity:0}30%{opacity:1}100%{opacity:0}}
+
+/* big 404 */
+.big{position:absolute;left:var(--split,51%);top:50%;transform:translate(-50%,-50%) scale(.82);font:400 clamp(110px,21vw,300px)/.8 var(--serif);letter-spacing:-.02em;color:#fff;opacity:0;white-space:nowrap;text-shadow:0 10px 40px rgba(0,25,80,.35);pointer-events:none}
+.big em{font-style:italic;color:var(--gold)}
+.apart .big{opacity:1;transform:translate(-50%,-50%) scale(1);transition:opacity 1s ease .55s,transform 1.4s cubic-bezier(.2,.9,.2,1) .45s}
+
+/* copy */
+.copy{text-align:center;padding:0 22px;margin-top:clamp(8px,2vh,24px);opacity:0;transform:translateY(12px)}
+.apart .copy{opacity:1;transform:none;transition:opacity .8s ease 1.2s,transform .8s ease 1.2s}
+.copy h1{margin:0;font:400 clamp(30px,4.4vw,52px)/1.05 var(--serif)}
+.copy h1 em{font-style:italic;color:var(--gold)}
+.copy p{margin:12px auto 0;max-width:34ch;font-size:clamp(15px,1.3vw,17px);line-height:1.55;color:rgba(255,255,255,.85)}
+.btns{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:22px}
+.btn{display:inline-flex;align-items:center;gap:10px;padding:8px 8px 8px 20px;border-radius:999px;text-decoration:none;font:600 15px var(--sans);transition:transform .2s}
+.btn:active{transform:scale(.97)}
+.btn .ic{width:34px;height:34px;border-radius:50%;display:grid;place-items:center}
+.btn .ic svg{width:16px;height:16px}
+.btn.solid{background:#fff;color:var(--ink)}.btn.solid .ic{background:#1F6FDB;color:#fff}
+.btn.ghost{border:1.5px solid rgba(255,255,255,.6);color:#fff;padding:12px 20px}
+.btn:focus-visible{outline:2px solid #fff;outline-offset:3px}
+@media (prefers-reduced-motion:reduce){.apart .half,.apart .big,.apart .copy{transition:none!important}.cut .snip,.cut .flash{animation:none}}
+</style>
+</head>
+<body>
+<header class="top"><a class="brand" href="/">Payel<i>.</i></a><span class="code">ERROR 404</span></header>
+<main id="m">
+  <div class="stage" id="stage">
+    <video id="v" muted playsinline autoplay preload="auto" aria-hidden="true"></video>
+    <div class="under" aria-hidden="true"></div>
+    <div class="half l" aria-hidden="true"></div>
+    <div class="half r" aria-hidden="true"></div>
+    <i class="flash" aria-hidden="true"></i>
+    <span class="snip" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="6" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><path d="M20 4L8.1 15.9M14.5 14.5L20 20M8.1 8.1L12 12"/></svg></span>
+    <div class="big" aria-hidden="true">4<em>0</em>4</div>
+  </div>
+  <div class="copy">
+    <h1>The thread <em>snapped.</em></h1>
+    <p>This page doesn’t exist, or it drifted away. Let’s get you back to something real.</p>
+    <div class="btns">
+      <a class="btn solid" href="/"><span>Back to home</span><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></a>
+      <a class="btn ghost" href="/#work">See my work</a>
+    </div>
+  </div>
+</main>
+<script>
+(function(){
+  var dark=document.documentElement.getAttribute('data-theme')==='dark';
+  var v=document.getElementById('v'),stage=document.getElementById('stage'),m=document.getElementById('m');
+  var base=dark?'/handsd':'/hands',TIED=base+'-tied.jpg',CUT=8.2,SPLIT=51,done=false;
+  document.querySelectorAll('.half').forEach(function(h){h.style.backgroundImage='url('+TIED+')'});document.querySelector('.under').style.backgroundImage='url('+base+'-poster.jpg)';
+  (new Image()).src=TIED;
+  v.poster=base+'-poster.jpg';
+  var s1=document.createElement('source');s1.src=base+'.webm';s1.type='video/webm';
+  var s2=document.createElement('source');s2.src=base+'.mp4';s2.type='video/mp4';v.appendChild(s1);v.appendChild(s2);
+  // where the cut lands on screen (the film is cropped with object-fit:cover)
+  function place(){var W=stage.clientWidth,H=stage.clientHeight,vw=1440,vh=376,s=Math.max(W/vw,H/vh),rw=vw*s,ox=(W-rw)*(SPLIT/100);
+    var x=(ox+rw*SPLIT/100)/W*100;stage.style.setProperty('--split',x.toFixed(2)+'%');stage.style.setProperty('--pull',Math.max(60,W*0.16)+'px')}
+  place();addEventListener('resize',place);
+  function cut(){if(done)return;done=true;try{v.pause()}catch(e){}
+    stage.classList.add('cut');m.classList.add('cut');
+    setTimeout(function(){m.classList.add('apart')},420)}
+  var reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if(reduce){cut();m.classList.add('apart');return}
+  v.currentTime=3.6;
+  function watch(){if(done)return;if(v.currentTime>=CUT){cut();return}requestAnimationFrame(watch)}
+  var p=v.play();if(p&&p.catch)p.catch(function(){});
+  v.addEventListener('playing',function(){requestAnimationFrame(watch)});
+  v.addEventListener('ended',cut);v.addEventListener('error',cut,true);
+  // if the film can't autoplay (e.g. low-power mode), still show the cut
+  setTimeout(function(){if(!done&&(v.paused||v.readyState<2))cut()},2600);
+  setTimeout(cut,9000);
+})();
+</script>
+</body>
+</html>
