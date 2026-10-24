@@ -36,18 +36,18 @@ main{flex:1;display:flex;flex-direction:column;justify-content:center;padding:cl
 .half.l{clip-path:inset(0 calc(100% - var(--split,51%)) 0 0);transform-origin:0 50%;-webkit-mask-image:linear-gradient(90deg,#000 calc(var(--split,51%) - 7%),transparent var(--split,51%));mask-image:linear-gradient(90deg,#000 calc(var(--split,51%) - 7%),transparent var(--split,51%))}
 .half.r{clip-path:inset(0 0 0 var(--split,51%));transform-origin:100% 50%;-webkit-mask-image:linear-gradient(90deg,transparent var(--split,51%),#000 calc(var(--split,51%) + 7%));mask-image:linear-gradient(90deg,transparent var(--split,51%),#000 calc(var(--split,51%) + 7%))}
 .cut .half{opacity:1}.cut video{opacity:0}
-.apart .half{transition:transform 1.6s cubic-bezier(.45,0,.15,1)}
+.apart .half{transition:transform .9s cubic-bezier(.45,0,.15,1)}
 .apart .half.l{transform:translateX(calc(-1 * var(--pull,16vw))) rotate(-2.5deg)}
 .apart .half.r{transform:translateX(var(--pull,16vw)) rotate(2.5deg)}
 
 /* big 404 */
 .big{position:absolute;left:var(--split,51%);top:50%;transform:translate(-50%,-50%) scale(.82);font:400 clamp(110px,21vw,300px)/.8 var(--serif);letter-spacing:-.02em;color:#fff;opacity:0;white-space:nowrap;text-shadow:0 10px 40px rgba(0,25,80,.35);pointer-events:none}
 .big em{font-style:italic;color:var(--gold)}
-.apart .big{opacity:1;transform:translate(-50%,-50%) scale(1);transition:opacity 1s ease .55s,transform 1.4s cubic-bezier(.2,.9,.2,1) .45s}
+.apart .big{opacity:1;transform:translate(-50%,-50%) scale(1);transition:opacity .6s ease .2s,transform .8s cubic-bezier(.2,.9,.2,1) .15s}
 
 /* copy */
 .copy{text-align:center;padding:0 22px;margin-top:clamp(8px,2vh,24px);opacity:0;transform:translateY(12px)}
-.apart .copy{opacity:1;transform:none;transition:opacity .8s ease 1.2s,transform .8s ease 1.2s}
+.apart .copy{opacity:1;transform:none;transition:opacity .5s ease .55s,transform .5s ease .55s}
 .copy h1{margin:0;font:400 clamp(30px,4.4vw,52px)/1.05 var(--serif)}
 .copy h1 em{font-style:italic;color:var(--gold)}
 .copy p{margin:12px auto 0;max-width:34ch;font-size:clamp(15px,1.3vw,17px);line-height:1.55;color:rgba(255,255,255,.85)}
@@ -100,17 +100,17 @@ main{flex:1;display:flex;flex-direction:column;justify-content:center;padding:cl
   place();addEventListener('resize',place);
   function cut(){if(done)return;done=true;try{v.pause()}catch(e){}
     stage.classList.add('cut');m.classList.add('cut');
-    setTimeout(function(){m.classList.add('apart')},420)}
+    setTimeout(function(){m.classList.add('apart')},150)}
   var reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
   if(reduce){cut();m.classList.add('apart');return}
-  v.currentTime=3.6;
+  v.currentTime=4.5;v.playbackRate=1.6;v.addEventListener('loadedmetadata',function(){v.playbackRate=1.6});
   function watch(){if(done)return;if(v.currentTime>=CUT){cut();return}requestAnimationFrame(watch)}
   var p=v.play();if(p&&p.catch)p.catch(function(){});
   v.addEventListener('playing',function(){requestAnimationFrame(watch)});
   v.addEventListener('ended',cut);v.addEventListener('error',cut,true);
   // if the film can't autoplay (e.g. low-power mode), still show the cut
   setTimeout(function(){if(!done&&(v.paused||v.readyState<2))cut()},2600);
-  setTimeout(cut,9000);
+  setTimeout(cut,6000);
 })();
 </script>
 </body>
