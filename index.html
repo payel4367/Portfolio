@@ -1140,6 +1140,29 @@ html.mob-film body .cover-stage,html.mob-film[data-theme] body .cover-stage{back
   html .hs:not(.native) .hs-shell{padding-bottom:calc(22px + env(safe-area-inset-bottom,0px))!important;padding-bottom:calc(100lvh - 100dvh + 22px + env(safe-area-inset-bottom,0px))!important}
 }
 </style>
+<style id="tms-css">
+/* testimonials: centred heading + 3D sliding cards */
+.tms .head{display:flex!important;flex-direction:column;align-items:center!important;text-align:center;gap:14px!important;margin-bottom:clamp(28px,4vh,44px)!important}
+.tms .head h2{margin:0}.tms .head p{margin:0 auto;max-width:52ch!important}
+.tms-panel{max-width:1240px;margin:0 auto;padding:12px;border-radius:30px;background:#F3F5F8;border:1px solid rgba(18,38,58,.07)}
+.tms-view{position:relative;overflow:hidden;border-radius:22px;perspective:1300px;touch-action:pan-y;cursor:grab;-webkit-user-select:none;user-select:none}
+.tms-view.drag{cursor:grabbing}
+.tms-track{display:flex;gap:12px;will-change:transform}
+.tms-card{position:relative;flex:none;width:calc((100% - 12px)/2);margin:0;min-height:clamp(300px,34vw,360px);padding:clamp(22px,2.4vw,30px);border-radius:22px;background:#fff;border:1px solid rgba(18,38,58,.06);box-shadow:0 1px 2px rgba(18,38,58,.04);display:flex;flex-direction:column;overflow:hidden;transform-style:preserve-3d;will-change:transform,opacity,filter}
+.tms-card h3::after{content:"";display:block;width:36px;height:2px;margin-top:12px;border-radius:2px;background:#1F6FDB}
+.tms-card h3{margin:0 0 16px;font:600 clamp(19px,1.6vw,22px)/1.2 var(--display);color:var(--ink);letter-spacing:-.01em}
+.tms-card blockquote{margin:0;font:400 15px/1.65 var(--font);color:#6B7B8C;max-width:40ch}
+.tms-card figcaption{position:relative;display:flex;align-items:center;gap:12px;margin-top:auto;padding-top:26px}
+.tms-card figcaption b{display:block;font:600 16px var(--display);color:var(--ink)}
+.tms-card figcaption small{display:block;font-size:13px;color:#6B7B8C}
+.tms-card .tm-av{width:40px;height:40px;font-size:12px}
+.tms-nav{display:flex;justify-content:center;gap:8px;margin-top:22px}
+.tms-btn{width:38px;height:38px;border-radius:50%;border:0;background:#12263A;color:#fff;display:grid;place-items:center;cursor:pointer;transition:transform .2s,background .2s}
+.tms-btn:hover{background:#1F6FDB}.tms-btn:active{transform:scale(.92)}.tms-btn svg{width:17px;height:17px}
+.tms-btn:focus-visible,.tms-view:focus-visible{outline:2px solid #1F6FDB;outline-offset:3px}
+@media (min-width:1101px){.tms-card{width:calc((100% - 24px)/3);min-height:clamp(320px,26vw,370px)}.tms-card blockquote{font-size:14.5px}}
+@media (max-width:700px){.tms-card{width:86%;min-height:0}.tms-panel{padding:8px;border-radius:24px}.tms-view{border-radius:18px}.tms-card blockquote{font-size:14.5px}}
+</style>
 </head>
 <body>
 <!-- boarding-pass loader -->
@@ -1511,25 +1534,18 @@ const fine=matchMedia('(hover:hover) and (min-width:901px)');
 ps.forEach(p=>{p.addEventListener('click',()=>open(p));p.addEventListener('mouseenter',()=>{if(fine.matches)open(p)});p.addEventListener('focus',()=>open(p));p.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();open(p)}})})})();</script>
 </section>
 <!-- ============ TESTIMONIALS ============ -->
-<section class="sec tm" id="kind-words">
+<section class="sec tm tms" id="kind-words">
   <div class="wrap">
     <div class="head"><h2 class="split">Things they say <em>behind my back</em></h2><p class="reveal">What people say after working with me: product managers, design leads and the engineers who build what I design.</p></div>
-    <div class="tm-grid">
-      
-      <figure class="tm-card tm-star">
-        <svg class="tm-q" viewBox="0 0 48 36" aria-hidden="true"><path fill="currentColor" d="M0 36V22C0 10 6 2 18 0l2 5c-6 2-9 6-9 12h9v19H0zm28 0V22c0-12 6-20 18-22l2 5c-6 2-9 6-9 12h9v19H28z"/></svg>
-        <blockquote>“Payel has a remarkable ability to turn complex challenges into simple, intuitive experiences. She approaches every problem with curiosity, thoughtful research, and a strong understanding of user needs. Her work brings clarity to even the most complicated workflows.”</blockquote>
-        <figcaption><span class="tm-av">KB</span><span><b>Karthik Bagalkote</b><small>Product Manager</small></span></figcaption></figure>
-      <figure class="tm-card tm-real">
-        <blockquote>“Working with Payel is always a great experience. She brings fresh perspectives, listens carefully to feedback, and collaborates effortlessly across teams. What stands out is her ability to balance creative thinking with practical, user-centered solutions.”</blockquote>
-        <figcaption><span class="tm-av">BB</span><span><b>Brendon Barretto</b><small>Design Lead</small></span></figcaption></figure>
-      <figure class="tm-card tm-real">
-        <blockquote>“Payel’s attention to detail and commitment to consistency truly stand out. From complex design systems to polished interfaces, she considers every interaction carefully. She doesn’t just make products look better; she makes them easier to understand and use.”</blockquote>
-        <figcaption><span class="tm-av">SD</span><span><b>Sai Siddharth Duvvada</b><small>Senior UX Designer</small></span></figcaption></figure>
-      <figure class="tm-card tm-real">
-        <blockquote>“Payel takes genuine ownership of her work, from understanding the initial problem to refining the final experience. She’s proactive, adaptable, and always willing to explore better solutions. Her thoughtful approach makes her a valuable contributor to any product team.”</blockquote>
-        <figcaption><span class="tm-av">NT</span><span><b>Narayan Tomar</b><small>Engineering Lead</small></span></figcaption></figure>
+    <div class="tms-panel" aria-roledescription="carousel" aria-label="Testimonials">
+      <div class="tms-view" id="tmsView"><div class="tms-track" id="tmsTrack">
+        <figure class="tms-card" role="group" aria-roledescription="slide" aria-label="1 of 4"><h3>Complex, made simple</h3><blockquote>“Payel has a remarkable ability to turn complex challenges into simple, intuitive experiences. She approaches every problem with curiosity, thoughtful research, and a strong understanding of user needs. Her work brings clarity to even the most complicated workflows.”</blockquote><figcaption><span class="tm-av">KB</span><span><b>Karthik Bagalkote</b><small>Product Manager</small></span></figcaption></figure>
+        <figure class="tms-card" role="group" aria-roledescription="slide" aria-label="2 of 4"><h3>Fresh perspectives</h3><blockquote>“Working with Payel is always a great experience. She brings fresh perspectives, listens carefully to feedback, and collaborates effortlessly across teams. What stands out is her ability to balance creative thinking with practical, user-centered solutions.”</blockquote><figcaption><span class="tm-av">BB</span><span><b>Brendon Barretto</b><small>Design Lead</small></span></figcaption></figure>
+        <figure class="tms-card" role="group" aria-roledescription="slide" aria-label="3 of 4"><h3>Every detail considered</h3><blockquote>“Payel’s attention to detail and commitment to consistency truly stand out. From complex design systems to polished interfaces, she considers every interaction carefully. She doesn’t just make products look better; she makes them easier to understand and use.”</blockquote><figcaption><span class="tm-av">SD</span><span><b>Sai Siddharth Duvvada</b><small>Senior UX Designer</small></span></figcaption></figure>
+        <figure class="tms-card" role="group" aria-roledescription="slide" aria-label="4 of 4"><h3>Genuine ownership</h3><blockquote>“Payel takes genuine ownership of her work, from understanding the initial problem to refining the final experience. She’s proactive, adaptable, and always willing to explore better solutions. Her thoughtful approach makes her a valuable contributor to any product team.”</blockquote><figcaption><span class="tm-av">NT</span><span><b>Narayan Tomar</b><small>Engineering Lead</small></span></figcaption></figure>
+      </div></div>
     </div>
+    <div class="tms-nav"><button type="button" class="tms-btn" id="tmsPrev" aria-label="Previous testimonial"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg></button><button type="button" class="tms-btn" id="tmsNext" aria-label="Next testimonial"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></button></div>
   </div>
 </section>
 
@@ -2330,5 +2346,43 @@ function place(){const mob=document.documentElement.classList.contains('mob-film
  if(mob){const t=h.querySelector('.c17-tl p');if(t){const hr=h.getBoundingClientRect(),tr=t.getBoundingClientRect();h.style.setProperty('--tbt',Math.round(tr.top-hr.top+tr.height/2-18)+'px')}}}
 place();addEventListener('resize',place);document.fonts&&document.fonts.ready.then(place);addEventListener('load',place)})();</script>
 
+<script>/*TMS*/(function(){
+  var view=document.getElementById('tmsView'),track=document.getElementById('tmsTrack');if(!view||!track)return;
+  var orig=[].slice.call(track.children),n=orig.length,reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  // three copies so it loops forever in both directions
+  orig.forEach(function(c){var k=c.cloneNode(true);k.setAttribute('aria-hidden','true');track.insertBefore(k,orig[0])});
+  orig.forEach(function(c){var k=c.cloneNode(true);k.setAttribute('aria-hidden','true');track.appendChild(k)});
+  var cards=[].slice.call(track.children),step=0,x=0,target=0,raf=0,idx=n,off=0;
+  function measure(){step=cards[1].offsetLeft-cards[0].offsetLeft;var W=view.clientWidth,gap=step-cards[0].offsetWidth,vis=Math.max(1,Math.floor((W+gap+1)/step));off=(W-(vis*step-gap))/2;target=off-idx*step;x=target;paint()}
+  function paint(){track.style.transform='translate3d('+x.toFixed(2)+'px,0,0)';var W=view.clientWidth;
+    cards.forEach(function(c){var l=c.offsetLeft+x,w=c.offsetWidth,r=l+w,out=0,side=0;
+      if(l<0){out=Math.min(1,-l/w);side=-1}else if(r>W){out=Math.min(1,(r-W)/w);side=1}
+      if(reduce){c.style.opacity=out>.5?.5:1;c.style.transform='';c.style.filter='';return}
+      var e=out*out*(3-2*out);
+      c.style.transformOrigin=side<0?'100% 50%':'0% 50%';
+      c.style.transform=out?('rotateY('+(side*-22*e).toFixed(2)+'deg) scale('+(1-.07*e).toFixed(3)+')'):'';
+      c.style.opacity=(1-.6*e).toFixed(3);c.style.filter=e>.02?'blur('+(1.4*e).toFixed(2)+'px)':''})}
+  function loop(){var d=target-x;x+=d*.14;if(Math.abs(d)<.3){x=target;normalize();raf=0;paint();return}paint();raf=requestAnimationFrame(loop)}
+  function go(i){idx=i;target=off-idx*step;if(!raf)raf=requestAnimationFrame(loop)}
+  function normalize(){if(idx<n||idx>=2*n){idx=((idx-n)%n+n)%n+n;target=off-idx*step;x=target}}
+  document.getElementById('tmsNext').addEventListener('click',function(){normalizeIfIdle();go(idx+1)});
+  document.getElementById('tmsPrev').addEventListener('click',function(){normalizeIfIdle();go(idx-1)});
+  function normalizeIfIdle(){if(!raf)normalize()}
+  view.tabIndex=0;view.addEventListener('keydown',function(e){if(e.key==='ArrowRight'){e.preventDefault();go(idx+1)}if(e.key==='ArrowLeft'){e.preventDefault();go(idx-1)}});
+  // drag / swipe with a little momentum
+  var down=false,sx=0,sy=0,bx=0,lastX=0,lastT=0,vel=0,moved=false,lock=null;
+  view.addEventListener('pointerdown',function(e){if(e.button>0)return;down=true;moved=false;lock=null;sx=lastX=e.clientX;sy=e.clientY;lastT=performance.now();vel=0;normalize();bx=x;if(raf){cancelAnimationFrame(raf);raf=0}});
+  addEventListener('pointermove',function(e){if(!down)return;var dx=e.clientX-sx,dy=e.clientY-sy;
+    if(lock===null&&(Math.abs(dx)>6||Math.abs(dy)>6))lock=Math.abs(dx)>Math.abs(dy)?'x':'y';
+    if(lock!=='x')return;moved=true;view.classList.add('drag');var t=performance.now();vel=(e.clientX-lastX)/Math.max(1,t-lastT);lastX=e.clientX;lastT=t;x=bx+dx;paint()});
+  function up(){if(!down)return;down=false;view.classList.remove('drag');if(!moved){return}
+    var proj=x+vel*220;var i=Math.round((off-proj)/step);if(i===idx&&Math.abs(x-target)>step*.18)i+=x<target?1:-1;go(Math.max(idx-2,Math.min(idx+2,i)))}
+  addEventListener('pointerup',up);addEventListener('pointercancel',up);
+  view.addEventListener('click',function(e){if(moved){e.preventDefault();e.stopPropagation()}},true);
+  view.addEventListener('dragstart',function(e){e.preventDefault()});
+  addEventListener('resize',function(){measure()});
+  if(document.fonts&&document.fonts.ready)document.fonts.ready.then(measure);
+  measure();
+})();</script>
 </body>
 </html>
