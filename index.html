@@ -1545,18 +1545,105 @@ window.pgLoader=function(el,opt){opt=opt||{};
 <section class="sec skx" id="expertise">
   <div class="wrap">
     <div class="head"><h2 class="split">My <em>expertise</em></h2><p class="reveal">The things I do every week, end to end, from the first interview to the developer handoff.</p></div>
-    <div class="ska reveal">
-      <article class="ska-p on" tabindex="0" aria-expanded="true"><span class="skx-n">01</span><h3>Research</h3><div class="ska-b"><p>Finding the real problem before designing anything.</p><ul class="sp-chips"><li>User research</li><li>Usability testing</li><li>A/B testing</li><li>Journey mapping</li><li>Personas</li><li>UX audit</li></ul></div></article>
-      <article class="ska-p" tabindex="0" aria-expanded="false"><span class="skx-n">02</span><h3>Structure</h3><div class="ska-b"><p>Turning tangled workflows into clear paths.</p><ul class="sp-chips"><li>Information architecture</li><li>User flows</li><li>Wireframes</li><li>Workflow redesign</li></ul></div></article>
-      <article class="ska-p" tabindex="0" aria-expanded="false"><span class="skx-n">03</span><h3>Interface</h3><div class="ska-b"><p>Screens that feel calm, quick and obvious.</p><ul class="sp-chips"><li>UI design</li><li>Interaction design</li><li>Prototyping</li><li>Responsive design</li><li>Accessibility</li><li>Data viz</li></ul></div></article>
-      <article class="ska-p" tabindex="0" aria-expanded="false"><span class="skx-n">04</span><h3>Systems &amp; delivery</h3><div class="ska-b"><p>Keeping it consistent and easy to build.</p><ul class="sp-chips"><li>Design systems</li><li>Visual language</li><li>Dev handoff</li><li>Web &amp; mobile</li></ul></div></article>
+    <style>
+/* ===== Expertise: ikigai circles scroll story ===== */
+#expertise .xv{position:relative;height:460vh;margin-top:clamp(8px,2vw,24px)}
+#expertise .xv-pin{position:sticky;top:0;height:100vh;height:100svh;display:flex;align-items:center;padding-top:clamp(70px,9vh,96px);box-sizing:border-box}
+#expertise .xv-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.05fr);gap:clamp(24px,5vw,80px);align-items:center;width:100%}
+#expertise .xv-venn{position:relative;width:min(500px,100%,62vh);aspect-ratio:1;margin:auto}
+#expertise .xv-c{position:absolute;width:54%;aspect-ratio:1;border-radius:50%;background:rgba(31,111,219,.16);border:1.5px solid rgba(31,111,219,.35);display:grid;place-items:center;will-change:transform,opacity;transition:background .5s,border-color .5s,box-shadow .5s}
+#expertise .xv-c.p0{left:1%;top:23%}#expertise .xv-c.p1{left:23%;top:1%}#expertise .xv-c.p2{right:1%;top:23%}#expertise .xv-c.p3{left:23%;bottom:1%}
+#expertise .xv-lab{transform:translate(var(--tx),var(--ty));text-align:center;transition:transform .6s cubic-bezier(.16,1,.3,1)}
+#expertise .xv-num{display:block;font:italic 400 clamp(30px,4.4vw,56px)/1 var(--display);color:var(--payel-deep,#1659B8);opacity:.55;transition:opacity .5s,transform .6s cubic-bezier(.16,1,.3,1),color .5s}
+#expertise .xv-nm{display:block;font:400 clamp(12px,1.2vw,15px)/1.1 var(--display);margin-top:4px;color:var(--payel-deep,#1659B8);opacity:.8;transition:opacity .5s}
+#expertise .xv-c.on{background:var(--payel,#1F6FDB);border-color:var(--payel,#1F6FDB);z-index:3;box-shadow:0 30px 60px -24px rgba(18,38,58,.45)}
+#expertise .xv-c.on .xv-num{opacity:1;color:#fff;transform:scale(1.5)}
+#expertise .xv-c.on .xv-nm{opacity:0}
+#expertise .xv-c.on .xv-lab{transform:none}
+#expertise .xv-mid{position:absolute;left:50%;top:50%;width:20%;aspect-ratio:1;display:grid;place-items:center;background:#fff;border-radius:50%;box-shadow:0 14px 30px -14px rgba(18,38,58,.4);transform:translate(-50%,-50%) scale(.6);opacity:0;transition:opacity .6s,transform .8s cubic-bezier(.16,1,.3,1);z-index:4;pointer-events:none}
+#expertise .xv-mid b{font:italic 400 clamp(13px,1.5vw,19px)/1 var(--display);color:var(--payel-deep,#1659B8)}
+#expertise .xv-venn.all .xv-mid{opacity:1;transform:translate(-50%,-50%) scale(1)}
+#expertise .xv-venn.all .xv-num{opacity:.8}
+#expertise .xv-panel{position:relative;min-height:min(540px,66vh)}
+#expertise .xv-pane{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;opacity:0;visibility:hidden;transform:translateY(30px);transition:opacity .5s,transform .7s cubic-bezier(.16,1,.3,1),visibility 0s .5s}
+#expertise .xv-pane.on{opacity:1;visibility:visible;transform:none;transition:opacity .6s .1s,transform .8s .1s cubic-bezier(.16,1,.3,1),visibility 0s}
+#expertise .xv-pane.up{transform:translateY(-30px)}
+#expertise .xv-kick{display:flex;align-items:center;gap:12px;font:500 12px var(--mono);letter-spacing:.16em;text-transform:uppercase;color:var(--payel-deep,#1659B8)}
+#expertise .xv-kick i{width:10px;height:10px;border-radius:50%;background:var(--payel,#1F6FDB)}
+#expertise .xv-pane h3{font:400 clamp(40px,5vw,72px)/.95 var(--display);margin:14px 0 10px;letter-spacing:-.02em;color:var(--ink)}
+#expertise .xv-sub{font:italic 400 clamp(20px,2vw,27px)/1.25 var(--display);color:var(--payel-deep,#1659B8);margin:0 0 16px}
+#expertise .xv-desc{color:var(--muted);margin:0 0 20px;max-width:50ch;font-size:clamp(15.5px,1.25vw,17px);line-height:1.6}
+#expertise .xv-lbl{font:500 11px var(--mono);letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin:0 0 10px}
+#expertise .xv-how{list-style:none;margin:0 0 22px;padding:0;display:grid;gap:10px}
+#expertise .xv-how li{display:flex;gap:12px;align-items:flex-start;font-size:clamp(14.5px,1.15vw,16px);line-height:1.45;color:var(--ink)}
+#expertise .xv-how li::before{content:"";flex:none;width:18px;height:18px;margin-top:2px;border-radius:50%;background:#E3EEFC url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%231659B8' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12l5 5L20 7'/%3E%3C/svg%3E") center/11px no-repeat}
+#expertise .xv-how b{font-weight:600}
+#expertise .xv-chips{display:flex;flex-wrap:wrap;gap:8px;list-style:none;margin:0;padding:0}
+#expertise .xv-chips li{font-size:13.5px;font-weight:500;padding:6px 13px;border-radius:999px;border:1px solid var(--line);background:#fff;color:var(--ink);opacity:0;transform:translateY(8px);transition:opacity .4s,transform .5s cubic-bezier(.16,1,.3,1)}
+#expertise .xv-pane.on .xv-chips li{opacity:1;transform:none}
+#expertise .xv-prog{position:absolute;left:0;right:0;bottom:clamp(14px,3vh,30px);display:flex;align-items:center;gap:16px}
+#expertise .xv-ct{font:500 13px var(--mono);color:var(--muted)}
+#expertise .xv-ct b{color:var(--ink);font-weight:500}
+#expertise .xv-bar{flex:1;height:2px;background:var(--line);border-radius:2px;overflow:hidden}
+#expertise .xv-bar i{display:block;height:100%;background:var(--payel,#1F6FDB);transform-origin:0 50%;transform:scaleX(0)}
+#expertise .xv-dots{display:flex;gap:6px}
+#expertise .xv-dots span{width:8px;height:8px;border-radius:50%;background:var(--line);transition:background .4s,transform .4s}
+#expertise .xv-dots span.on{background:var(--payel,#1F6FDB);transform:scale(1.3)}
+@media(max-width:860px){
+  #expertise .xv-pin{align-items:flex-start;padding-top:max(76px,9vh)}
+  #expertise .xv-grid{grid-template-columns:1fr;gap:6px}
+  #expertise .xv-venn{width:min(220px,56vw,30vh)}
+  #expertise .xv-panel{min-height:0;height:calc(100svh - min(220px,56vw,30vh) - max(76px,9vh) - 64px)}
+  #expertise .xv-pane{justify-content:flex-start}
+  #expertise .xv-pane h3{font-size:34px;margin:8px 0 4px}
+  #expertise .xv-sub{font-size:18px;margin-bottom:8px}
+  #expertise .xv-desc{font-size:14.5px;margin-bottom:10px;line-height:1.5}
+  #expertise .xv-how{gap:5px;margin-bottom:12px}#expertise .xv-how li{font-size:13.5px}
+  #expertise .xv-chips li{font-size:12px;padding:4px 10px}
+  #expertise .xv-lbl{display:none}
+  #expertise .xv-mid b{font-size:11px}
+}
+@media(max-width:860px) and (max-height:760px){#expertise .xv-desc{display:none}}
+/* reduced motion: no pinning, every area listed */
+.rm #expertise .xv{height:auto}
+.rm #expertise .xv-pin{position:relative;height:auto;padding-top:0;display:block}
+.rm #expertise .xv-grid{grid-template-columns:1fr}
+.rm #expertise .xv-panel{min-height:0;height:auto;display:grid;gap:48px}
+.rm #expertise .xv-pane{position:static;opacity:1;visibility:visible;transform:none}
+.rm #expertise .xv-pane .xv-chips li{opacity:1;transform:none}
+.rm #expertise .xv-prog{display:none}
+    </style>
+    <div class="xv" id="xv">
+      <div class="xv-pin">
+        <div class="xv-grid">
+          <div class="xv-venn" id="xvVenn" aria-hidden="true"><div class="xv-mid"><b>Design</b></div></div>
+          <div class="xv-panel" id="xvPanel"></div>
+        </div>
+        <div class="xv-prog" aria-hidden="true"><span class="xv-ct"><b id="xvN">01</b> / 04</span><div class="xv-bar"><i id="xvBar"></i></div><div class="xv-dots" id="xvDots"><span></span><span></span><span></span><span></span></div></div>
+      </div>
     </div>
     <div class="skx-ind reveal"><span>Industries</span><b>Aviation</b><b>Fintech</b><b>SaaS</b><b>Healthcare</b><b>E-commerce</b></div>
   </div>
-<script>(function(){const r=document.getElementById('expertise');if(!r)return;const ps=[...r.querySelectorAll('.ska-p')];
-const open=p=>ps.forEach(x=>{const on=x===p;x.classList.toggle('on',on);x.setAttribute('aria-expanded',on)});
-const fine=matchMedia('(hover:hover) and (min-width:901px)');
-ps.forEach(p=>{p.addEventListener('click',()=>open(p));p.addEventListener('mouseenter',()=>{if(fine.matches)open(p)});p.addEventListener('focus',()=>open(p));p.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();open(p)}})})})();</script>
+<script>/*XVENN*/(function(){var sec=document.getElementById('xv'),venn=document.getElementById('xvVenn'),panel=document.getElementById('xvPanel');if(!sec||!venn||!panel)return;
+var D=[
+{n:"01",t:"Research",s:"Finding the real problem before designing anything.",d:"I talk to the people who actually use the product, watch where they get stuck and test ideas early. Every design decision then starts from evidence, not guesswork.",h:["<b>Interviews and usability tests</b> with real users","<b>Journey maps</b> that show where people drop off","<b>UX audits</b> of what already exists, so we know what to fix first"],c:["User research","Usability testing","A/B testing","Journey mapping","Personas","UX audit"]},
+{n:"02",t:"Structure",s:"Turning tangled workflows into clear paths.",d:"Before any pixels, I map how information and tasks fit together. Long, complicated workflows become simple steps, so people always know where they are and what comes next.",h:["<b>Information architecture</b> and clear navigation","<b>User flows</b> for every key task, edge cases included","<b>Wireframes</b> to test the layout quickly and cheaply"],c:["Information architecture","User flows","Wireframes","Workflow redesign"]},
+{n:"03",t:"Interface",s:"Screens that feel calm, quick and obvious.",d:"I design interfaces that get out of the way. Clear hierarchy, thoughtful motion and accessible colour and type help people finish what they came to do without thinking about the screen.",h:["<b>High-fidelity UI</b> and clickable prototypes","<b>Responsive layouts</b> that work from phone to desktop","<b>Accessible</b> colour, type and data visualisation"],c:["UI design","Interaction design","Prototyping","Responsive design","Accessibility","Data viz"]},
+{n:"04",t:"Systems & delivery",s:"Keeping it consistent and easy to build.",d:"I turn designs into reusable components and clear guidelines, then work side by side with developers through handoff, so what ships matches what was designed.",h:["<b>Design systems</b> with components and tokens","<b>One visual language</b> across every product","<b>Detailed handoff</b> for web and mobile builds"],c:["Design systems","Visual language","Dev handoff","Web & mobile"]}];
+var FROM=[[-150,0],[-130,-30],[150,0],[130,30]],T=[[-30,0],[0,-30],[30,0],[0,30]];
+function e(s){return s.replace(/&/g,'&amp;')}
+D.forEach(function(x,i){
+ venn.insertAdjacentHTML('beforeend','<div class="xv-c p'+i+'" style="--tx:'+T[i][0]+'%;--ty:'+T[i][1]+'%"><div class="xv-lab"><span class="xv-num">'+x.n+'</span><span class="xv-nm">'+e(x.t.replace(' & delivery',''))+'</span></div></div>');
+ panel.insertAdjacentHTML('beforeend','<article class="xv-pane"><div class="xv-kick"><i></i>'+x.n+' of 04</div><h3>'+e(x.t)+'</h3><p class="xv-sub">'+x.s+'</p><p class="xv-desc">'+x.d+'</p><p class="xv-lbl">How I do it</p><ul class="xv-how">'+x.h.map(function(h){return '<li><span>'+h+'</span></li>'}).join('')+'</ul><ul class="xv-chips">'+x.c.map(function(c,k){return '<li style="transition-delay:'+(.25+k*.05)+'s">'+e(c)+'</li>'}).join('')+'</ul></article>')});
+var V=venn.querySelectorAll('.xv-c'),P=panel.querySelectorAll('.xv-pane'),dots=document.querySelectorAll('#xvDots span'),bar=document.getElementById('xvBar'),num=document.getElementById('xvN'),cur=-1,raf=0;
+function rm(){return document.documentElement.classList.contains('rm')||matchMedia('(prefers-reduced-motion: reduce)').matches}
+function cl(v){return Math.max(0,Math.min(1,v))}
+function upd(){raf=0;if(rm()){V.forEach(function(c){c.style.transform='';c.style.opacity=1;c.classList.remove('on')});venn.classList.add('all');P.forEach(function(p){p.classList.add('on')});return}
+ var r=sec.getBoundingClientRect(),tot=sec.offsetHeight-innerHeight,p=cl(-r.top/(tot||1)),seg=p*4.6,i=Math.min(3,Math.floor(seg));
+ V.forEach(function(c,j){var t=cl((seg-j+.15)/.45);t=1-Math.pow(1-t,3);c.style.transform='translate('+FROM[j][0]*(1-t)+'%,'+FROM[j][1]*(1-t)+'%) scale('+(.7+.3*t)+')';c.style.opacity=t;c.classList.toggle('on',j===i&&seg<4)});
+ venn.classList.toggle('all',seg>=4);bar.style.transform='scaleX('+p+')';
+ if(i!==cur){cur=i;P.forEach(function(pn,j){pn.classList.toggle('on',j===i);pn.classList.toggle('up',j<i)});dots.forEach(function(d,j){d.classList.toggle('on',j===i)});num.textContent=D[i].n}}
+addEventListener('scroll',function(){if(!raf)raf=requestAnimationFrame(upd)},{passive:true});addEventListener('resize',upd);upd()})();</script>
 </section>
 <!-- ============ TESTIMONIALS ============ -->
 <section class="sec tm tms" id="kind-words">
