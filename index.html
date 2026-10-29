@@ -977,8 +977,8 @@ header.top .btn.sm{height:46px}
 /* ===== Experience: year ruler ===== */
 .rl-grid{display:grid;grid-template-columns:240px minmax(0,1fr);gap:clamp(24px,4vw,56px)}
 .rl-side{position:sticky;top:clamp(110px,16vh,150px);height:min(60vh,520px)}
-.rl-ruler{position:absolute;left:78px;top:0;bottom:0;width:36px;background:repeating-linear-gradient(180deg,#c9d8ee 0 1px,transparent 1px calc(100%/48))}
-.rl-ruler::before{content:"";position:absolute;left:0;top:0;bottom:0;width:36px;background:repeating-linear-gradient(180deg,#8fa9cc 0 1.5px,transparent 1.5px calc(100%/4))}
+.rl-ruler{position:absolute;left:78px;top:0;bottom:0;width:36px;background:repeating-linear-gradient(180deg,#c9d8ee 0 1px,transparent 1px calc(100%/60))}
+.rl-ruler::before{content:"";position:absolute;left:0;top:0;bottom:0;width:36px;background:repeating-linear-gradient(180deg,#8fa9cc 0 1.5px,transparent 1.5px calc(100%/5))}
 .rl-yl{position:absolute;left:0;font:500 13px var(--mono);color:var(--muted);transform:translateY(-50%)}
 .rl-mk{position:absolute;left:68px;display:flex;align-items:center;gap:12px;transform:translateY(-50%);transition:top .7s var(--ease)}
 .rl-mk i{width:58px;height:3px;border-radius:3px;background:var(--payel)}
@@ -1006,8 +1006,8 @@ header.top .btn.sm{height:46px}
 .rl-sky .head h2{color:#fff!important;-webkit-text-fill-color:#fff;text-shadow:0 2px 24px rgba(0,30,90,.3)}
 .rl-sky .head h2 em{color:#FFD58A!important;-webkit-text-fill-color:#FFD58A}
 .rl-sky .head p{color:rgba(255,255,255,.88)!important}
-.rl-sky .rl-ruler{background:repeating-linear-gradient(180deg,rgba(255,255,255,.45) 0 1px,transparent 1px calc(100%/48))}
-.rl-sky .rl-ruler::before{background:repeating-linear-gradient(180deg,rgba(255,255,255,.9) 0 1.5px,transparent 1.5px calc(100%/4))}
+.rl-sky .rl-ruler{background:repeating-linear-gradient(180deg,rgba(255,255,255,.45) 0 1px,transparent 1px calc(100%/60))}
+.rl-sky .rl-ruler::before{background:repeating-linear-gradient(180deg,rgba(255,255,255,.9) 0 1.5px,transparent 1.5px calc(100%/5))}
 .rl-sky .rl-yl{color:rgba(255,255,255,.8)}
 .rl-sky .rl-mk i{background:#FFD58A}
 .rl-sky .rl-mk b{color:#FFD58A;text-shadow:0 2px 18px rgba(0,30,90,.35)}
@@ -1535,7 +1535,7 @@ window.pgLoader=function(el,opt){opt=opt||{};
         <div class="rl-step" data-start="Jan 2024"><span class="rl-date">Jan 2024 – Jan 2025</span><h3>Savart</h3><p class="rl-role">UI/UX designer · <em>Fintech</em></p><p class="rl-desc">Gave Savart’s apps and website a calmer, friendlier look, then led its PMS app. Adoption jumped 60% and a new investment contract followed. Not bad.</p><ul class="rl-chips" aria-label="Domains"><li>Fintech</li><li>Wealth management</li></ul></div>
         <div class="rl-step" data-start="Sep 2023"><span class="rl-date">Sep 2023 – Dec 2023</span><h3>Taxolawgy</h3><p class="rl-role">UI/UX designer · <em>Talentplace.ai</em></p><p class="rl-desc">I asked a lot of questions (interviews, surveys, usability tests) and the answers paid off: satisfaction up 20%, usability up 30%.</p><ul class="rl-chips" aria-label="Domains"><li>HR tech</li><li>Hiring</li></ul></div>
         <div class="rl-step" data-start="Jun 2023"><span class="rl-date">Jun 2023 – Sep 2023</span><h3>Clearmind.ai</h3><p class="rl-role">UI/UX designer · <em>AI mental wellness</em></p><p class="rl-desc">Designed an AI therapy app that checks in on how you feel, without feeling like a form. Sharper wireframes and flows cut iteration time by 25%.</p><ul class="rl-chips" aria-label="Domains"><li>Mental health</li><li>AI</li></ul></div>
-        <div class="rl-step" data-start="Jan 2023"><span class="rl-date">Jan 2023 – May 2023</span><h3>Freelance</h3><p class="rl-role">UI/UX designer · <em>Independent</em></p><p class="rl-desc">Where it all took off. I designed <b>Talency</b>, a job platform built for recruiters (and gave its website a glow-up), plus <b>Makemysocial</b>, an AI app for making real connections online.</p><ul class="rl-chips" aria-label="Domains"><li>Recruitment</li><li>Social</li><li>AI</li></ul></div>
+        <div class="rl-step" data-start="Jan 2022"><span class="rl-date">Jan 2022 – May 2023</span><h3>Freelance</h3><p class="rl-role">UI/UX designer · <em>Independent</em></p><p class="rl-desc">Where it all took off. I designed <b>Talency</b>, a job platform built for recruiters (and gave its website a glow-up), plus <b>Makemysocial</b>, an AI app for making real connections online.</p><ul class="rl-chips" aria-label="Domains"><li>Recruitment</li><li>Social</li><li>AI</li></ul></div>
       </div>
     </div>
   </div>
@@ -2108,8 +2108,8 @@ s.style.transform=p>=1?'':`scale(${sc.toFixed(4)})`;
 s.style.borderRadius=`${Math.round((mob?28:56)-(mob?10:16)*p)}px ${Math.round((mob?28:56)-(mob?10:16)*p)}px 0 0`}
 addEventListener('scroll',()=>{if(!raf)raf=requestAnimationFrame(upd)},{passive:true});addEventListener('resize',upd);upd()})();</script>
 <script>/*RULER*/(function(){const side=document.querySelector('.rl-side'),mk=document.getElementById('rlMk'),st=[...document.querySelectorAll('.rl-step')];if(!side||!st.length)return;
-const MO=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];const mi=s=>(+s.slice(-4)-2023)*12+MO.indexOf(s.slice(0,3));const vp=m=>(1-(m+.5)/48)*100;
-[2026,2025,2024,2023].forEach(y=>side.insertAdjacentHTML('beforeend',`<span class="rl-yl" style="top:${vp((y-2023)*12+5.5)}%">${y}</span>`));
+const MO=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];const mi=s=>(+s.slice(-4)-2022)*12+MO.indexOf(s.slice(0,3));const vp=m=>(1-(m+.5)/60)*100;
+[2026,2025,2024,2023,2022].forEach(y=>side.insertAdjacentHTML('beforeend',`<span class="rl-yl" style="top:${vp((y-2022)*12+5.5)}%">${y}</span>`));
 st.forEach(s=>{const d=s.querySelector('.rl-date');if(/Now/.test(d.textContent))d.classList.add('now')});
 let raf=0,cur=-1;function upd(){raf=0;let k=0;st.forEach((s,i)=>{if(s.getBoundingClientRect().top<innerHeight*.5)k=i});if(k===cur)return;cur=k;st.forEach((s,i)=>s.classList.toggle('on',i===k));const d=st[k].dataset.start;mk.style.top=vp(mi(d))+'%';mk.querySelector('b').textContent=d}
 addEventListener('scroll',()=>{if(!raf)raf=requestAnimationFrame(upd)},{passive:true});addEventListener('resize',()=>{cur=-1;upd()});upd()})();</script>
