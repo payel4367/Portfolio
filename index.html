@@ -1551,7 +1551,7 @@ window.pgLoader=function(el,opt){opt=opt||{};
 #expertise .xv-pin{position:sticky;top:0;height:100vh;height:100svh;display:flex;flex-direction:column;justify-content:safe center;padding-top:var(--xvtop);padding-bottom:clamp(16px,3vh,32px);box-sizing:border-box}
 #expertise .xv-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.05fr);gap:clamp(24px,5vw,80px);align-items:center;width:100%}
 #expertise .xv-venn{position:relative;width:min(500px,100%,62vh);aspect-ratio:1;margin:auto}
-#expertise .xv-c{position:absolute;width:54%;aspect-ratio:1;border-radius:50%;background:rgba(31,111,219,.16);border:1.5px solid rgba(31,111,219,.35);display:grid;place-items:center;will-change:transform,opacity;transition:background .5s,border-color .5s,box-shadow .5s}
+#expertise .xv-c{position:absolute;width:54%;aspect-ratio:1;border-radius:50%;background:rgba(31,111,219,.16);border:1.5px solid rgba(31,111,219,.35);display:grid;place-items:center;will-change:transform,opacity;backface-visibility:hidden;transition:background .6s ease,border-color .6s ease}
 #expertise .xv-c.p0{left:1%;top:23%}#expertise .xv-c.p1{left:23%;top:1%}#expertise .xv-c.p2{right:1%;top:23%}#expertise .xv-c.p3{left:23%;bottom:1%}
 #expertise .xv-lab{transform:translate(var(--tx),var(--ty));text-align:center;transition:transform .6s cubic-bezier(.16,1,.3,1)}
 #expertise .xv-num{display:block;font:italic 400 clamp(30px,4.4vw,56px)/1 var(--display);color:var(--payel-deep,#1659B8);opacity:.55;transition:opacity .5s,transform .6s cubic-bezier(.16,1,.3,1),color .5s}
@@ -1640,12 +1640,18 @@ function lay(){var P2=panel.querySelectorAll('.xv-pane');if(rm()){panel.style.he
 var V=venn.querySelectorAll('.xv-c'),P=panel.querySelectorAll('.xv-pane'),dots=document.querySelectorAll('#xvDots span'),bar=document.getElementById('xvBar'),num=document.getElementById('xvN'),cur=-1,raf=0;
 function rm(){return document.documentElement.classList.contains('rm')||matchMedia('(prefers-reduced-motion: reduce)').matches}
 function cl(v){return Math.max(0,Math.min(1,v))}
-function upd(){raf=0;if(rm()){V.forEach(function(c){c.style.transform='';c.style.opacity=1;c.classList.remove('on')});venn.classList.add('all');P.forEach(function(p){p.classList.add('on')});return}
- var r=sec.getBoundingClientRect(),tot=sec.offsetHeight-innerHeight,p=cl(-r.top/(tot||1)),seg=p*4.6,i=Math.min(3,Math.floor(seg));
- V.forEach(function(c,j){var t=cl((seg-j+.15)/.45);t=1-Math.pow(1-t,3);c.style.transform='translate('+FROM[j][0]*(1-t)+'%,'+FROM[j][1]*(1-t)+'%) scale('+(.7+.3*t)+')';c.style.opacity=t;c.classList.toggle('on',j===i&&seg<4)});
- venn.classList.toggle('all',seg>=4);bar.style.transform='scaleX('+p+')';
+var sp=-1,lw=innerWidth;
+function target(){var r=sec.getBoundingClientRect(),tot=sec.offsetHeight-innerHeight;return cl(-r.top/(tot||1))}
+function paint(p){var seg=p*4.6,i=Math.min(3,Math.floor(seg));
+ V.forEach(function(c,j){var t=cl((seg-j+.15)/.45);t=1-Math.pow(1-t,3);c.style.transform='translate3d('+(FROM[j][0]*(1-t)).toFixed(2)+'%,'+(FROM[j][1]*(1-t)).toFixed(2)+'%,0) scale('+(.7+.3*t).toFixed(4)+')';c.style.opacity=t.toFixed(3);c.classList.toggle('on',j===i&&seg<4)});
+ venn.classList.toggle('all',seg>=4);bar.style.transform='scaleX('+p.toFixed(4)+')';
  if(i!==cur){cur=i;P.forEach(function(pn,j){pn.classList.toggle('on',j===i);pn.classList.toggle('up',j<i)});dots.forEach(function(d,j){d.classList.toggle('on',j===i)});num.textContent=D[i].n}}
-addEventListener('scroll',function(){if(!raf)raf=requestAnimationFrame(upd)},{passive:true});addEventListener('resize',function(){lay();upd()});lay();upd();addEventListener('load',function(){lay();upd()});document.fonts&&document.fonts.ready.then(function(){lay();upd()})})();</script>
+function upd(){raf=0;if(rm()){V.forEach(function(c){c.style.transform='';c.style.opacity=1;c.classList.remove('on')});venn.classList.add('all');P.forEach(function(p){p.classList.add('on')});return}
+ var t=target();if(sp<0){sp=t}else{sp+=(t-sp)*.12}if(Math.abs(t-sp)<.0004)sp=t;paint(sp);if(sp!==t)raf=requestAnimationFrame(upd)}
+function kick(){if(!raf)raf=requestAnimationFrame(upd)}
+addEventListener('scroll',kick,{passive:true});
+addEventListener('resize',function(){if(innerWidth!==lw){lw=innerWidth;lay()}kick()});
+lay();upd();addEventListener('load',function(){lay();kick()});document.fonts&&document.fonts.ready.then(function(){lay();kick()})})();</script>
 </section>
 <!-- ============ TESTIMONIALS ============ -->
 <section class="sec tm tms" id="kind-words">
